@@ -1,5 +1,6 @@
 /build
 /node_modules
 package-lock.json
+/admin_frontend
 /build
 .eslintcache
