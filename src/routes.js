@@ -1,27 +1,15 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import Index from "views/Index.js";
 import Profile from "views/examples/Profile.js";
-import Maps from "views/examples/Maps.js";
-import Register from "views/examples/Register.js";
 import Login from "views/examples/Login.js";
-import Tables from "views/examples/Tables.js";
-import Icons from "views/examples/Icons.js";
+import Banner from "views/examples/Banner";
+import Article from "views/examples/Article";
+import Filter from "views/examples/Filter";
+import Category from "views/examples/Category";
+import PoojaBooking from "views/examples/PoojaBooking";
+import Package from "views/examples/Package";
+import Products from "views/examples/Product";
+import ProductAdds from "views/examples/ProductAdds";
+import ProductEdit from "views/examples/EditProduct";
 
 var routes = [
   {
@@ -30,20 +18,87 @@ var routes = [
     icon: "ni ni-tv-2 text-primary",
     component: Index,
     layout: "/admin",
+    show: true,
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
+    path: "/banner",
+    name: "Banner",
+    icon: "ni ni-image text-primary",
+    component: Banner,
     layout: "/admin",
+    show: true,
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
+    path: "/article",
+    name: "Articles",
+    icon: "ni ni-book-bookmark text-red",
+    component: Article,
     layout: "/admin",
+    show: true,
+  },
+  {
+    path: "/pooja-booking",
+    name: "Pooja Booking",
+    icon: "ni ni-ruler-pencil text-success",
+    component: PoojaBooking,
+    layout: "/admin",
+    show: true,
+  },
+  {
+    path: "/add_package",
+    name: "Add Package",
+    icon: "ni ni-collection text-primary",
+    component: Package,
+    layout: "/admin",
+    show: false,
+  },
+  {
+    path: "/edit-product",
+    name: "Edit Product",
+    icon: "ni ni-collection text-primary",
+    component: ProductEdit,
+    layout: "/admin",
+    show: false,
+  },
+  {
+    name: "Product",
+    icon: "ni ni-bullet-list-67 text-primary",
+    show: true,
+    collapse: true,
+    views: [
+      {
+        path: "/filter",
+        name: "Filter",
+        icon: "ni ni-ui-04 text-primary",
+        component: Filter,
+        layout: "/admin",
+        show: true,
+      },
+      {
+        path: "/category",
+        name: "Category",
+        icon: "ni ni-ui-04 text-primary",
+        component: Category,
+        layout: "/admin",
+        show: true,
+      },
+      {
+        path: "/all-product",
+        name: "All Product",
+        icon: "ni ni-ui-04 text-primary",
+        component: Products,
+        layout: "/admin",
+        show: true,
+      },
+      {
+        path: "/add-product",
+        name: "Add Product",
+        icon: "ni ni-ui-04 text-primary",
+        component: ProductAdds,
+        layout: "/admin",
+        show: true,
+      },
+    ],
   },
   {
     path: "/user-profile",
@@ -51,13 +106,7 @@ var routes = [
     icon: "ni ni-single-02 text-yellow",
     component: Profile,
     layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
+    show: false,
   },
   {
     path: "/login",
@@ -65,13 +114,7 @@ var routes = [
     icon: "ni ni-key-25 text-info",
     component: Login,
     layout: "/auth",
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth",
+    show: false,
   },
 ];
 export default routes;

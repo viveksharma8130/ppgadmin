@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Open+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .team {
+            padding: 0em 0em;
+        }
+
+
+        .team .personwrap {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .team .personwrap .hero_person {
+            position: relative;
+            overflow: hidden;
+            width: 21%;
+            border-radius: 20px;
+            transition: 0.5s;
+        }
+
+        .team .personwrap .hero_person .hero_person_img_wrap {
+            width: 100%;
+            height: 550px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .team .personwrap .hero_person .hero_person_img_wrap .hero_person_img {
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            will-change: width, height;
+        }
+
+        .team .personwrap .hero_person.active {
+            width: 45%;
+        }
+
+        .team .personwrap .hero_person .hero_person-grad {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), to(rgba(0, 0, 0, .8)));
+            background-image: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .8));
+            color: #fff;
+        }
+
+        .team .personwrap .hero_person .hero_person-less,
+        .team .personwrap .hero_person .hero_person-more {
+            position: absolute;
+            bottom: 80px;
+            display: flex;
+            width: 200px;
+            height: 120px;
+            font-size: 28px;
+            font-weight: 700;
+            transition: 0.5s;
+        }
+
+        .team .personwrap .hero_person .hero_person-more {
+            opacity: 0;
+            left: 30px;
+            bottom: 5px;
+            width: 100%
+        }
+
+        .team .personwrap .hero_person .hero_person-less {
+            opacity: 1;
+            transform: rotate(-90deg);
+        }
+
+        .team .personwrap .hero_person.active .hero_person-more {
+            opacity: 1
+        }
+
+        .team .personwrap .hero_person.active .hero_person-less {
+            opacity: 0
+        }
+    </style>
+</head>
+
+<body>
+    <section class="team">
+        <div class="row">
+            <div class="personwrap">
+                <div class="hero_person active">
+                    <div class="hero_person-cont">
+                        <div class="hero_person_img_wrap">
+                            <div class="hero_person_img"
+                                style="background-image:url('https://static.wixstatic.com/media/9d5ddd_e873b63ffec14990ae0986bfb7492653~mv2.png/v1/fill/w_436,h_540,al_c,usm_0.66_1.00_0.01,enc_auto/9d5ddd_e873b63ffec14990ae0986bfb7492653~mv2.png')">
+                            </div>
+                        </div>
+                        <div class="hero_person-grad">
+                            <div class="hero_person-less">
+                                <div class="hero_person-desgnation">Marketing Director</div>
+                                <div class="hero__person-square"></div>
+                            </div>
+                            <div class="hero_person-more">
+                                <div class="hero_person-title">Dwayne <br>Jeffries
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero_person">
+                    <div class="hero_person-cont">
+                        <div class="hero_person_img_wrap">
+                            <div class="hero_person_img"
+                                style="background-image:url('https://static.wixstatic.com/media/9d5ddd_b4f42ab64f0549a793511cfb8ecdaad2~mv2.png/v1/fill/w_438,h_540,al_c,usm_0.66_1.00_0.01,enc_auto/waterfire%20(1).png')">
+                            </div>
+                        </div>
+                        <div class="hero_person-grad">
+                            <div class="hero_person-less">
+                                <div class="hero_person-desgnation">Creative Director</div>
+                                <div class="hero__person-square"></div>
+                            </div>
+                            <div class="hero_person-more">
+                                <div class="hero_person-title">Willian <br>Hadden
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero_person">
+                    <div class="hero_person-cont">
+                        <div class="hero_person_img_wrap">
+                            <div class="hero_person_img"
+                                style="background-image:url('https://static.wixstatic.com/media/9d5ddd_2530939443184e6dbe5fdd0ba40eb550~mv2.png/v1/fill/w_438,h_540,al_c,usm_0.66_1.00_0.01,enc_auto/waterfire.png')">
+                            </div>
+                        </div>
+                        <div class="hero_person-grad">
+                            <div class="hero_person-less">
+                                <div class="hero_person-title">Visual & Art Director</div>
+                                <div class="hero__person-square"></div>
+                            </div>
+                            <div class="hero_person-more">
+                                <div class="hero_person-title">Jahanvi <br>Bhalla
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(".personwrap .hero_person").hover(function () {
+        $('.hero_person').removeClass('active');
+        $(this).addClass("active");
+
+    });
+</script>
+
+</html>

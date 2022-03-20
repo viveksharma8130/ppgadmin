@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
@@ -29,7 +12,13 @@ import routes from "routes.js";
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
-
+  const [isLogedin, setIsLogedin] = React.useState(false);
+  React.useEffect(() => {
+    const token = sessionStorage.getItem("Authtoken");
+    if (token == null) {
+      setIsLogedin(true);
+    }
+  }, []);
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -46,6 +35,14 @@ const Admin = (props) => {
             key={key}
           />
         );
+      } else if (prop.collapse) {
+        return prop.views.map((item, key) => (
+          <Route
+            path={item.layout + item.path}
+            component={item.component}
+            key={key}
+          />
+        ));
       } else {
         return null;
       }
@@ -63,7 +60,9 @@ const Admin = (props) => {
     }
     return "Brand";
   };
-
+  if (isLogedin) {
+    return <Redirect to="/auth/login" />;
+  }
   return (
     <>
       <Sidebar
@@ -71,7 +70,7 @@ const Admin = (props) => {
         routes={routes}
         logo={{
           innerLink: "/admin/index",
-          imgSrc: require("../assets/img/brand/argon-react.png").default,
+          imgSrc: require("../assets/img/brand/logo.png").default,
           imgAlt: "...",
         }}
       />
