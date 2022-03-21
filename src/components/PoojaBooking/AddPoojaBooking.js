@@ -166,7 +166,7 @@ const AddPoojaBooking = ({ hide, editdata, refresh }) => {
             onChange={HandleName}
           />
         </FormGroup>
-        {package_type === "multiple" && (
+        {package_type === "single" && (
           <>
             <FormGroup>
               <label className="form-control-label" htmlFor="price">
