@@ -4,25 +4,25 @@ import { Editor } from "@tinymce/tinymce-react";
 const TextEditor = ({ value, setvalue }) => {
   return (
     <Editor
-      apiKey="q549ywruwdl6qnt9a51th8mivzqgrgwzqe5ksscoek9adild"
+      apiKey="2twaih02wh568kgkbrd677m4od3t6dztzsrv0cuowm830r8h"
       value={value}
       init={{
         height: 400,
         menubar: true,
         plugins: [
-          "advlist lists image",
-          "searchreplace",
-          "insertdatetime table paste help wordcount",
+          "advlist autolink lists link image charmap print preview anchor",
+          "searchreplace visualblocks code fullscreen",
+          "insertdatetime media table paste code help wordcount",
         ],
         toolbar:
-          "undo redo | formatselect | " +
-          "bold italic backcolor | image | alignleft aligncenter " +
+          "link undo redo | formatselect | " +
+          "bold italic backcolor | alignleft aligncenter " +
           "alignright alignjustify | bullist numlist outdent indent | " +
           "removeformat | help",
-
-        image_title: false,
-        automatic_uploads: true,
+        content_style:
+          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         file_picker_types: "image",
+        images_file_types: "jpg,jpeg,png,webp",
         /* and here's our custom image picker*/
         file_picker_callback: function (cb, value, meta) {
           var input = document.createElement("input");

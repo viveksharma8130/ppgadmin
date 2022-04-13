@@ -10,6 +10,7 @@ import Package from "views/examples/Package";
 import Products from "views/examples/Product";
 import ProductAdds from "views/examples/ProductAdds";
 import ProductEdit from "views/examples/EditProduct";
+import ProductPackage from "views/examples/ProductPackage";
 
 var routes = [
   {
@@ -49,6 +50,16 @@ var routes = [
     name: "Add Package",
     icon: "ni ni-collection text-primary",
     component: Package,
+    layout: "/admin",
+    show: false,
+  },
+
+  // Products
+  {
+    path: "/product_variant",
+    name: "Packages",
+    icon: "ni ni-collection text-primary",
+    component: ProductPackage,
     layout: "/admin",
     show: false,
   },

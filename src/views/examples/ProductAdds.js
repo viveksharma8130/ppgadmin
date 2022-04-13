@@ -56,7 +56,7 @@ const ProductAdds = () => {
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row className="justify-content-center">
-          <Col xl="8">
+          <Col xl="10">
             <Card className="shadow mb-5">
               <CardHeader className="bg-white border-0">
                 <h3 className="mb-0">All Product</h3>

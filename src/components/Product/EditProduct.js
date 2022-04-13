@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { FormGroup, Input, Button, Form, Spinner } from "reactstrap";
+import { FormGroup, Input, Button, Form, Spinner, Row, Col } from "reactstrap";
 import Dataservices from "../../services/requestApi";
 import { Image, message } from "antd";
-import { v4 as uuidv4 } from "uuid";
-import AddDataModal from "components/Modal/AddDataModal";
 
 // Text editor
 import TextEditor from "components/TextEditor";
-import AddVariantForm from "components/Variant/AddVariantForm";
 import { useHistory } from "react-router-dom";
 
 const EditProduct = ({ Allcategory, editdata }) => {
   const [category, setCategoryId] = useState("");
   const [name, setName] = useState("");
-  const [filter, setFilter] = useState([]);
-  const [variant, setVariant] = useState([]);
-  const [variantlist, setVariantList] = useState([]);
-  const [variantListId, setVariantListId] = useState([]);
-  const [variantEditlist, setVariantEditList] = useState([]);
+  const [type, setType] = useState("");
+  const [material, setMaterial] = useState("");
+  const [design, setDesign] = useState("");
+  const [mrp, setMrp] = useState("");
+  const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState(null);
@@ -25,9 +22,7 @@ const EditProduct = ({ Allcategory, editdata }) => {
   const [description, setDescription] = useState("");
   const [shortdescription, setShortDescription] = useState("");
   const [ready, setReady] = useState(false);
-  const [modal, setModal] = useState(false);
   const [productid, setProductId] = useState("");
-  const [modalvariant, setModalVariant] = useState(false);
 
   // Update Current Data
   const data = editdata.state;
@@ -35,8 +30,10 @@ const EditProduct = ({ Allcategory, editdata }) => {
   useEffect(() => {
     if (data) {
       setCategoryId(data.category);
-      setVariant(JSON.parse(data.variant));
       setName(data.name);
+      setType(data.type);
+      setMaterial(data.material);
+      setDesign(data.design);
       setBrand(data.brand);
       setSlug(data.slug);
       setImage(data.image);
@@ -44,62 +41,27 @@ const EditProduct = ({ Allcategory, editdata }) => {
       setDescription(data.description);
       setShortDescription(data.short_description);
       setProductId(data._id);
-      const dataRender = [];
-      for (const [key, value] of Object.entries(JSON.parse(data.variant))) {
-        for (const [keys, values] of Object.entries(value)) {
-          dataRender.push(
-            <React.Fragment key={Math.random() + key}>
-              <AddVariantForm
-                keys={keys}
-                value={values}
-                EditVariant={EditVariant}
-                DeleteVariant={DeleteVariant}
-              />
-            </React.Fragment>
-          );
-        }
-      }
-
-      setVariantList(dataRender);
     }
-  }, []);
-  useEffect(() => {
-    const Update = () => {
-      sessionStorage.setItem("variantlist", JSON.stringify(variant));
-    };
-    Update();
-    return Update();
-  }, [variant]);
+  }, [data]);
 
-  // Get Filter By Category Id
-  useEffect(() => {
-    const getFilter = async () => {
-      try {
-        if (category) {
-          const res = await Dataservices.CategoryAllFilterById(category);
-          if (res.data.message) {
-            setFilter(res.data.data.filter);
-          }
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getFilter();
-  }, [category]);
-
-  const SubmitProduct = async (e) => {
+  const UpdateProduct = async (e) => {
     e.preventDefault();
     setReady(true);
     const data = new FormData();
     data.append("name", name);
+    data.append("slug", slug);
+    data.append("type", type);
+    data.append("material", material);
+    data.append("design", design);
+    if (type === "single") {
+      data.append("mrp", mrp);
+      data.append("price", price);
+    }
+    data.append("category", category);
     data.append("brand", brand);
     data.append("image", image);
-    data.append("category", category);
-    data.append("variant", JSON.stringify(variant));
     data.append("description", description);
     data.append("short_description", shortdescription);
-    data.append("slug", slug);
 
     try {
       const res = await Dataservices.ProductUpdate(productid, data);
@@ -137,253 +99,54 @@ const EditProduct = ({ Allcategory, editdata }) => {
     setSlug(slugtext);
   };
 
-  // Varient Model
-  const HandleModal = () => {
-    setModal((data) => !data);
-  };
-
-  // EditVariantModal
-  const HandleEditModal = () => {
-    setModalVariant((data) => !data);
-  };
-
-  // Input Handle Change
-
-  // Add Variant
-  const AddVariantSubmit = (e) => {
-    e.preventDefault();
-    let formfield = {};
-
-    for (let item of e.target) {
-      if (item.name && item.value) {
-        formfield[item.name] = item.value.trim();
-        formfield.id = uuidv4();
-      }
-    }
-
-    setVariant((prevState) => [...prevState, formfield]);
-    const data = [];
-    for (const [key, value] of Object.entries(formfield)) {
-      data.push(
-        <React.Fragment key={key}>
-          <AddVariantForm
-            keys={key}
-            value={value}
-            EditVariant={EditVariant}
-            DeleteVariant={DeleteVariant}
-          />
-        </React.Fragment>
-      );
-    }
-
-    setVariantList((prevState) => [...prevState, data]);
-    setModal(false);
-  };
-
-  // Edit Variant
-  const EditVariant = async (e, id) => {
-    e.preventDefault();
-    const getList = sessionStorage.getItem("variantlist");
-    const variantdata = JSON.parse(getList);
-    const filterForm = variantdata.find((item) => item.id === id);
-    setVariantListId(id);
-    setVariantEditList(filterForm);
-    HandleEditModal();
-  };
-
-  const UpdateVariant = (e) => {
-    e.preventDefault();
-    let formfield = {};
-    for (let item of e.target) {
-      if (item.name && item.value) {
-        formfield[item.name] = item.value.trim();
-      }
-    }
-
-    const getList = sessionStorage.getItem("variantlist");
-    const variantdata = JSON.parse(getList);
-
-    const data = [];
-    for (let items of variantdata) {
-      if (items.id === variantListId) {
-        items = formfield;
-      }
-      data.push(items);
-    }
-    setVariant(data);
-    const dataRender = [];
-    for (const [key, value] of Object.entries(data)) {
-      for (const [keys, values] of Object.entries(value)) {
-        dataRender.push(
-          <React.Fragment key={Math.random() + key}>
-            <AddVariantForm
-              keys={keys}
-              value={values}
-              EditVariant={EditVariant}
-              DeleteVariant={DeleteVariant}
-            />
-          </React.Fragment>
-        );
-      }
-    }
-
-    // console.log(sdsa);
-    setVariantList(dataRender);
-    HandleEditModal();
-  };
-  const DeleteVariant = (e, id) => {
-    e.preventDefault();
-    const variantdata = JSON.parse(data && data.variant);
-    const filterData = variantdata.filter((v) => v.id !== id);
-    setVariant(filterData);
-    const dataRender = [];
-    for (const [key, value] of Object.entries(filterData)) {
-      for (const [keys, values] of Object.entries(value)) {
-        dataRender.push(
-          <React.Fragment key={Math.random() + key}>
-            <AddVariantForm
-              keys={keys}
-              value={values}
-              EditVariant={EditVariant}
-              DeleteVariant={DeleteVariant}
-            />
-          </React.Fragment>
-        );
-      }
-    }
-    setVariantList(dataRender);
-  };
-  const varList = Object.entries(variantEditlist).map(([key, value]) => {
-    return (
-      <React.Fragment key={key}>
-        <FormGroup>
-          <label className="form-control-label" htmlFor={key}>
-            {key.toLocaleUpperCase()}
-          </label>
-          <Input
-            className="form-control-alternative"
-            type="text"
-            id={key.toLocaleLowerCase()}
-            name={key.toLocaleLowerCase()}
-            defaultValue={value}
-            readOnly={key === "id"}
-            placeholder={"Enter " + key}
-          />
-        </FormGroup>
-      </React.Fragment>
-    );
-  });
   return (
     <>
-      <AddDataModal
-        title="Add Variant"
-        show={modal}
-        hide={setModal}
-        width="700px"
-      >
-        <Form role="form" onSubmit={AddVariantSubmit}>
-          {filter &&
-            filter.map((item) => (
-              <FormGroup key={item._id}>
-                <label
-                  className="form-control-label d-block"
-                  htmlFor={item.title.toLocaleLowerCase()}
-                >
-                  {item.title}
-                </label>
-                <Input
-                  type="text"
-                  id={item.title.toLocaleLowerCase()}
-                  name={item.title.toLocaleLowerCase()}
-                  placeholder={"Enter " + item.title}
-                  className="form-control-alternative"
-                />
-              </FormGroup>
-            ))}
-          <FormGroup>
-            <label className="form-control-label d-block" htmlFor="mrp">
-              Mrp
-            </label>
-            <Input
-              type="text"
-              id="mrp"
-              name="mrp"
-              placeholder={"Enter mrp"}
-              className="form-control-alternative"
-            />
-          </FormGroup>
-          <FormGroup>
-            <label className="form-control-label d-block" htmlFor="price">
-              Price
-            </label>
-            <Input
-              type="text"
-              id="price"
-              name="price"
-              placeholder={"Enter Price"}
-              className="form-control-alternative"
-            />
-          </FormGroup>
-          <Button className="my-4 btn-block" type="submit" color="warning">
-            Add Variant
-          </Button>
-        </Form>
-      </AddDataModal>
-      <AddDataModal
-        title="Edit Variant"
-        show={modalvariant}
-        hide={HandleEditModal}
-        width="700px"
-      >
-        <Form onSubmit={UpdateVariant} id="editVariant">
-          {varList}
-          <Button className="my-4 btn-block" type="submit" color="warning">
-            Update Variant
-          </Button>
-        </Form>
-      </AddDataModal>
-      <Form role="form" onSubmit={SubmitProduct}>
-        <FormGroup>
-          <label className="form-control-label d-block" htmlFor="paid">
-            Select Category
-          </label>
-          <Input
-            type="select"
-            id="paid"
-            value={category}
-            className="form-control-alternative"
-            onChange={(e) => setCategoryId(e.target.value)}
-            disabled={category}
-          >
-            <option value="">Select ... </option>
-            {Allcategory &&
-              Allcategory.map((item) => (
-                <option key={item._id} value={item._id}>
-                  {item.category}{" "}
-                </option>
-              ))}
-          </Input>
-        </FormGroup>
-        {category && (
-          <>
+      <Form role="form" onSubmit={UpdateProduct}>
+        <Row>
+          <Col lg="6">
             <FormGroup>
-              <label className="form-control-label d-block" htmlFor="varient">
-                Varient
-                <Button
-                  color="warning"
-                  size="sm"
-                  type="button"
-                  className="btn-rounded ml-2"
-                  onClick={HandleModal}
-                >
-                  <i className="fas fa-plus" />
-                </Button>
+              <label className="form-control-label d-block" htmlFor="paid">
+                Select Product Type
               </label>
+              <Input
+                type="select"
+                id="paid"
+                value={type}
+                className="form-control-alternative"
+                onChange={(e) => setType(e.target.value)}
+                required
+              >
+                <option value="">Select ... </option>
+                <option value="single">Single </option>
+                <option value="multiple">Multiple</option>
+              </Input>
             </FormGroup>
+          </Col>
+          <Col lg="6">
+            <FormGroup>
+              <label className="form-control-label d-block" htmlFor="paid">
+                Select Category
+              </label>
+              <Input
+                type="select"
+                id="paid"
+                value={category}
+                className="form-control-alternative"
+                onChange={(e) => setCategoryId(e.target.value)}
+                required
+              >
+                <option value="">Select ... </option>
+                {Allcategory &&
+                  Allcategory.map((item) => (
+                    <option key={item._id} value={item._id}>
+                      {item.category}{" "}
+                    </option>
+                  ))}
+              </Input>
+            </FormGroup>
+          </Col>
+        </Row>
 
-            <div className="variant_wrap">{variantlist && variantlist}</div>
-          </>
-        )}
         <FormGroup>
           <label className="form-control-label" htmlFor="image">
             Image
@@ -410,6 +173,36 @@ const EditProduct = ({ Allcategory, editdata }) => {
             onChange={HandleName}
           />
         </FormGroup>
+        {type === "single" && (
+          <>
+            <FormGroup>
+              <label className="form-control-label" htmlFor="Brand">
+                Mrp
+              </label>
+              <Input
+                className="form-control-alternative"
+                id="Brand"
+                placeholder="Enter Mrp"
+                type="text"
+                value={mrp}
+                onChange={(e) => setMrp(e.target.value)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <label className="form-control-label" htmlFor="Brand">
+                Price
+              </label>
+              <Input
+                className="form-control-alternative"
+                id="Brand"
+                placeholder="Enter Price"
+                type="text"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </FormGroup>
+          </>
+        )}
         <FormGroup>
           <label className="form-control-label" htmlFor="Brand">
             Brand
@@ -421,6 +214,32 @@ const EditProduct = ({ Allcategory, editdata }) => {
             type="text"
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <label className="form-control-label" htmlFor="Brand">
+            Material
+          </label>
+          <Input
+            className="form-control-alternative"
+            id="Brand"
+            placeholder="Enter Material"
+            type="text"
+            value={material}
+            onChange={(e) => setMaterial(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <label className="form-control-label" htmlFor="Brand">
+            Design
+          </label>
+          <Input
+            className="form-control-alternative"
+            id="Brand"
+            placeholder="Enter Design"
+            type="text"
+            value={design}
+            onChange={(e) => setDesign(e.target.value)}
           />
         </FormGroup>
         <FormGroup>

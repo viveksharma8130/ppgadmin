@@ -27,8 +27,8 @@ const AddPoojaBooking = ({ hide, editdata, refresh }) => {
         setImage(editdata ? editdata.image : "");
         setThumbnail(editdata ? editdata.image : "");
         setSlug(editdata ? editdata.slug : "");
-        setPrice(editdata ? editdata.price : "");
-        setSamagriPrice(editdata ? editdata.samagri_price : "");
+        setPrice(editdata ? editdata.price : 0);
+        setSamagriPrice(!editdata === null ? editdata.samagri_price : 0);
         setDescription(editdata ? editdata.description : "");
         setShortDescription(editdata ? editdata.short_description : "");
         setPoojaid(editdata ? editdata._id : "");
@@ -83,7 +83,8 @@ const AddPoojaBooking = ({ hide, editdata, refresh }) => {
       data.append("description", description);
       data.append("short_description", shortdescription);
       data.append("slug", slug);
-      await Dataservices.PoojaBookingUpdate(poojaid, data);
+      const res = await Dataservices.PoojaBookingUpdate(poojaid, data);
+      console.log(res.data);
       message.success("Pooja updated successfully");
       setName("");
       setDescription("");

@@ -1,3 +1,4 @@
+import TextEditor from "components/TextEditor";
 import React from "react";
 import { FormGroup, Input, Button, Form } from "reactstrap";
 const AddArticle = ({
@@ -56,22 +57,13 @@ const AddArticle = ({
             <img src={thumbnail} className="img-fluid" alt="banner" />
           )}
         </FormGroup>
+
         <FormGroup>
-          <label className="form-control-label" htmlFor="setdescription">
+          <label className="form-control-label" htmlFor="desc">
             Description
           </label>
-          <Input
-            className="form-control-alternative"
-            id="setdescription"
-            placeholder="Enter Title"
-            type="textarea"
-            rows="4"
-            value={description}
-            onChange={(e) => setdescription(e.target.value)}
-            required
-          />
+          <TextEditor value={description} setvalue={setdescription} />
         </FormGroup>
-
         {editstatus ? (
           <Button
             className="my-4 btn-block"

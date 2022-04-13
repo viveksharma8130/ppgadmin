@@ -8,10 +8,10 @@ import ProductCards from "components/Cards/ProductCards";
 // core components
 const AllProduct = ({
   empty,
-  allcourse,
+  allproduct,
   status,
-  editcourse,
-  deletecourse,
+  editproduct,
+  deleteproduct,
   url,
 }) => {
   const [value, setValue] = useState("0");
@@ -33,16 +33,16 @@ const AllProduct = ({
         </Col>
       ) : (
         <>
-          {allcourse.map((item) => (
+          {allproduct.map((item) => (
             <Col lg="4" key={item._id}>
               <>
                 <ProductCards
                   data={item}
                   status={status}
-                  editcourse={editcourse}
+                  editproduct={editproduct}
                   action={true}
-                  deletecourse={deletecourse}
-                  length={allcourse.length}
+                  deleteproduct={deleteproduct}
+                  length={allproduct.length}
                   setvalue={setValue}
                   sequence={sequence}
                   url={url}

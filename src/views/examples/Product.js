@@ -71,23 +71,26 @@ const Products = () => {
     try {
       const data = new FormData();
       data.append("status", !val.status);
-      const res = await Dataservices.PoojaBookingUpdate(val._id, data);
+      const res = await Dataservices.ProductUpdate(val._id, data);
       if (res.data) {
         message.success(`${val.name} Status updated successfully`);
       }
-      // window.location.reload(false);
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
     }
   };
 
   // Delete Category
-  const deletePooja = async (e, id) => {
+  const deleteProduct = async (e, id) => {
     e.preventDefault();
     try {
-      const res = await Dataservices.PoojaBookingDelete(id);
+      const res = await Dataservices.ProductDelete(id);
       console.log(res);
-      getAllProduct();
+      if (res.data.status_code === 200) {
+        message.success(res.data.message);
+        getAllProduct();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -161,10 +164,10 @@ const Products = () => {
                   <>
                     <AllProduct
                       empty={empty}
-                      allcourse={searchFilter}
+                      allproduct={searchFilter}
                       status={status}
-                      editcourse={UpdateStatusPooja}
-                      deletecourse={deletePooja}
+                      editproduct={UpdateStatusPooja}
+                      deleteproduct={deleteProduct}
                       url="packagedetails"
                     />
                   </>

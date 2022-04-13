@@ -16,11 +16,10 @@ const DummyImage = "https://dummyimage.com/430x240/5e72e4/fff.png";
 // deletecourse
 const ProductCards = ({
   status,
-  editcourse,
   data,
   action,
   setvalue,
-  deletecourse,
+  deleteproduct,
   length,
   sequence,
   url,
@@ -49,18 +48,18 @@ const ProductCards = ({
           >
             <i className="fas fa-edit" /> Edit
           </Link>
-          {data.package_type === "multiple" && (
+          {data.type === "multiple" && (
             <Link
               className="btn btn-sm btn-secondary editbtn"
-              to={{ pathname: "/admin/add_package", state: data }}
+              to={{ pathname: "/admin/product_variant", state: data }}
             >
-              <i className="fas fa-plus" /> Package
+              <i className="fas fa-plus" /> Variant
             </Link>
           )}
           <Button
             size="sm"
             className="editbtn"
-            onClick={(e) => deletecourse(e, data._id)}
+            onClick={(e) => deleteproduct(e, data._id)}
           >
             <i className="fas fa-trash text-danger" />
           </Button>
@@ -88,7 +87,7 @@ const ProductCards = ({
               <i className="fas fa-rupee-sign" /> {data.price}
             </CardTitle>
             <CardTitle className="font-weight-bold mb-0">
-              Samagri Price: {data.samagri_price}
+              Mrp: {data.mrp}
             </CardTitle>
           </>
         )}

@@ -97,6 +97,7 @@ class DataService {
   ProductAll() {
     return http.get(`/product/admin/all`);
   }
+
   ProductAdd(data) {
     return http.post(`/product/create`, data);
   }
@@ -108,6 +109,20 @@ class DataService {
   }
   ProductDelete(id) {
     return http.delete(`/product/delete/${id}`);
+  }
+
+  // Product Packages Services
+  ProductAllVariant(id) {
+    return http.get(`/product_variant/product/${id}`);
+  }
+  ProductCreateVariant(data) {
+    return http.post(`/product_variant/create`, data);
+  }
+  ProductUpdateVariant(id, data) {
+    return http.patch(`/product_variant/update/${id}`, data);
+  }
+  ProductDeleteVariant(id) {
+    return http.delete(`/product_variant/delete/${id}`);
   }
 }
 
